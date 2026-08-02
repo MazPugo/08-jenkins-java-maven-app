@@ -17,8 +17,7 @@ pipeline {
         stage("build jar") {
             steps {
                 script {
-                    echo "building the application..."
-                    sh 'mvn package'
+                    gv.buildJar()
                 }
             }
         }
@@ -26,20 +25,15 @@ pipeline {
         stage("build image") {
             steps {
                 script {
-                    echo "building the docker image..."
-                    sh 'docker build -t mazpugo/demo-app:jma-2.0 .'
-                    withCredentials([usernamePassword(credentialsId: 'docker-hub-repo', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-                        sh 'echo $PASS | docker login -u $USER --password-stdin'
-                        sh 'docker push mazpugo/demo-app:jma-2.0'
-                    }
+                    gv.buildImage()
                 }
             }
         }
 
-        stage('deploy') {
+        stage("deploy") {
             steps {
                 script {
-                    echo "Deploying..."
+                    gv.deployApp()
                 }
             }
         }
