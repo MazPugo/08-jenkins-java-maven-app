@@ -1,6 +1,6 @@
 #!/usr/bin/env groovy
 
-@Library('jenkins-shared-library') 
+@Library('jenkins-shared-library') _
 def gv
 
 pipeline {
@@ -17,6 +17,16 @@ pipeline {
                 }
             }
         }
+
+        stage("test") {
+            steps {
+                script {
+                    echo "Testing the application..."
+                    echo "Executing pipeline for branch ${env.BRANCH_NAME}"
+                }
+            }
+        }
+
         stage("build jar") {
             steps {
                 script {
@@ -24,6 +34,7 @@ pipeline {
                 }
             }
         }
+
         stage("build image") {
             steps {
                 script {
@@ -31,6 +42,7 @@ pipeline {
                 }
             }
         }
+
         stage("deploy") {
             steps {
                 script {
