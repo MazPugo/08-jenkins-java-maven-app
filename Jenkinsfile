@@ -22,10 +22,12 @@ pipeline {
                 }
             }
         }
-        stage("build image") {
+        stage("build and push image") {
             steps {
                 script {
-                    buildimage('mazpugo/demo-app:jma-3.0')
+                    buildimage 'mazpugo/demo-app:jma-3.0'
+                    dockerLogin()
+                    dockerPush 'mazpugo/demo-app:jma-3.0'
                 }
             }
         }
