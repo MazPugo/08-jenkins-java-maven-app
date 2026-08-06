@@ -22,11 +22,7 @@ pipeline {
         stage("build image") {
             steps {
                 script {
-<<<<<<< HEAD
                     buildimage('mazpugo/demo-app:jma-3.0')
-=======
-                    buildimage()
->>>>>>> b5dfb509f41d9a780fe4a7dec24d6ba8e99b2a6f
                 }
             }
         }
