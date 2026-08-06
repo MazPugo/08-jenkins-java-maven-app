@@ -1,22 +1,17 @@
-
-#!/usr/bin/env groovy
-
 @Library('jenkins-shared-library') _
-
 pipeline {
     agent any
     tools {
-        maven 'Maven'
+        maven 'maven-3.9'
     }
     stages {
         stage("init") {
             steps {
                 script {
-                    gv = load "script.groovy"
+                    def gv = load "script.groovy"
                 }
             }
         }
-
         stage("build jar") {
             steps {
                 script {
@@ -24,15 +19,13 @@ pipeline {
                 }
             }
         }
-
         stage("build image") {
             steps {
                 script {
-                    buildimage 'mazpugo/demo-app:jma-3.0 .'
+                    buildimage('mazpugo/demo-app:jma-3.0')
                 }
             }
         }
-
         stage("deploy") {
             steps {
                 script {
