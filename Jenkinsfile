@@ -1,28 +1,18 @@
+
 #!/usr/bin/env groovy
 
 @Library('jenkins-shared-library') _
-def gv
 
 pipeline {
     agent any
     tools {
         maven 'Maven'
     }
-
     stages {
         stage("init") {
             steps {
                 script {
                     gv = load "script.groovy"
-                }
-            }
-        }
-
-        stage("test") {
-            steps {
-                script {
-                    echo "Testing the application..."
-                    echo "Executing pipeline for branch ${env.BRANCH_NAME}"
                 }
             }
         }
