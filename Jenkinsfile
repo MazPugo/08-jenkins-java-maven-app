@@ -1,10 +1,8 @@
-
 @Library('jenkins-shared-library') _
-
 pipeline {
     agent any
     tools {
-        maven 'Maven'
+        maven 'maven-3.9'
     }
     stages {
         stage("init") {
@@ -14,7 +12,6 @@ pipeline {
                 }
             }
         }
-
         stage("build jar") {
             steps {
                 script {
@@ -22,7 +19,6 @@ pipeline {
                 }
             }
         }
-
         stage("build image") {
             steps {
                 script {
@@ -30,7 +26,6 @@ pipeline {
                 }
             }
         }
-
         stage("deploy") {
             steps {
                 script {
