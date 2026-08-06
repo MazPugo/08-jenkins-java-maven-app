@@ -26,8 +26,9 @@ pipeline {
             steps {
                 script {
                     buildimage 'mazpugo/demo-app:jma-3.0'
-                    dockerLogin()
-                    dockerPush 'mazpugo/demo-app:jma-3.0'
+                    DockerLogin()
+                    
+                    DockerPush 'mazpugo/demo-app:jma-3.0'
                 }
             }
         }
