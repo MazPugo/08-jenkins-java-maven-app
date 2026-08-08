@@ -5,7 +5,7 @@ pipeline {
             steps {
                 script {
                     echo "Testing the application..."
-                    echo "Executing pipeline for branch ${env.GIT_BRANCH}"
+                    echo "Executing pipeline for integration..."
                 }
             }
         }
