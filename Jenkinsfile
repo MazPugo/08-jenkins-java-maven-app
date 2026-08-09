@@ -4,6 +4,18 @@ pipeline {
         maven 'Maven'
     }
     stages {
+        stage('check skip ci') {
+            steps {
+                script {
+                    def lastMessage = sh(script: 'git log -1 --pretty=%B', returnStdout: true).trim()
+                    if (lastMessage.contains('[skip ci]')) {
+                        echo "Commit message contains [skip ci] — stopping pipeline."
+                        currentBuild.result = 'NOT_BUILT'
+                        error('Skipping build due to [skip ci] in commit message')
+                    }
+                }
+            }
+        }
         stage('increment version') {
             steps {
                 script {
@@ -41,28 +53,23 @@ pipeline {
             steps {
                 script {
                     echo 'deploying docker image...'
-             }
+                }
             }
         }
-        stage('commit version update'){
+        stage('commit version update') {
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'github-credentials', passwordVariable: 'PASS', usernameVariable: 'USER')]){
+                    withCredentials([usernamePassword(credentialsId: 'github-credentials', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
                         sh 'git config --global user.email "jenkins@example.com"'
                         sh 'git config --global user.name "jenkins"'
-                        sh 'git status'
-                        sh 'git branch'
-                        sh 'git config --list'
-                        
+
                         sh "git remote set-url origin https://${USER}:${PASS}@github.com/MazPugo/java-maven-app.git"
                         sh 'git add .'
-                        sh 'git commit -m "ci: version bump"'
+                        sh 'git commit -m "ci: version bump [skip ci]"'
                         sh 'git push origin HEAD:jenkins-jobs'
                     }
                 }
             }
-         }
         }
     }
-
-
+}
