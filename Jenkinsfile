@@ -4,18 +4,6 @@ pipeline {
         maven 'Maven'
     }
     stages {
-        stage('check skip ci') {
-            steps {
-                script {
-                    def lastMessage = sh(script: 'git log -1 --pretty=%B', returnStdout: true).trim()
-                    if (lastMessage.contains('[skip ci]')) {
-                        echo "Commit message contains [skip ci] — stopping pipeline."
-                        currentBuild.result = 'NOT_BUILT'
-                        error('Skipping build due to [skip ci] in commit message')
-                    }
-                }
-            }
-        }
         stage('increment version') {
             steps {
                 script {
